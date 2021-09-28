@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Truy xuất nội dung số </title>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <style>
+    .margin-top-1 {
+      margin-top: 1em;
+    }
+
+    a {
+      color: #339900;
+      text-decoration: none
+    }
+
+    a:focus,
+    a:hover {
+      color: #339900;
+      text-decoration: underline
+    }
+  </style>
+</head>
+
+<body class="container" style="width:1600px;">
+  <h2 style="text-align:center">Xuất bản trực tuyến</h2>
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#sectionA" id="home_tab"><i class="fa fa-university"></i> Khởi tạo hợp đồng</a>
+      <li><a data-toggle="tab" href="#sectionB" id="product_tab"><i class="fa fa-user"></i> Kiểm tra tác phẩm </a></li>
+      <li><a data-toggle="tab" href="#sectionC" id="account_tab"><i class="fa fa-user"></i> Tạo độc bản tác phẩm </a></li>
+    </li>
+  </ul>
+  <div class="tab-content">
+    <div id="sectionA" class="tab-pane fade in active">
+      <div class="panel panel-success margin-top-1">
+        <div class="panel-heading">
+          <h3 class="panel-title">Lưu tác phẩm trên IPFS</h3>
+        </div>
+        <div class="panel-body">
+          <table class="table table-striped">
+            <tbody>
+              <tr>
+                <div>
+                <form method="POST" enctype="multipart/form-data">
+                    <input class="form-control" type="file" name="file">
+                    </div>
+                    <div>
+                      <button type="submit" id="uploadFile" class="btn btn-success">Upload File</button>
+                    </div>
+                      </form>
+                      
+                        <td>IPFS link:</td>
+                        <td colspan="2" id="IPFSlink"></td>
+                        <td>Hash :</td>
+                        <td colspan="2" id="Hash"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">Hợp đồng xuất bản sách</h3>
+        </div>
+        <div class="panel-body">
+          <div style="height: 200px;overflow:scroll;">
+            <table class="table table-striped">
+              <tr>
+                <th>STT</th>
+                <th>HashBook</th>
+                <th>Tên sách</th>
+                <th>Tác giả</th>
+                <th>Nhà xuất bản</th>
+                <th>Hợp đồng </th>
+                <th>Năm xuất bản </th>
+
+              </tr>
+              <tbody id="productListA">
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">Hợp đồng với tác giả</h3>
+        </div>
+        <div class="panel-body">
+          <table class="table table-striped">
+            <tbody>
+              <tr>
+                <td>Tên tác phẩm:</td>
+                <td>
+                  <input type="text" class="form-control" id="bookName" placeholder="Tên tác phẩm">
+                </td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td>Tên tác giả:</td>
+                <td>
+                  <input type="text" class="form-control" id="author" placeholder="Tên tác giả">
+                </td>
+              </tr>
+              <tr>
+                <td> Hash tác phẩm :</td>
+                <td>
+                  <input type="text" class="form-control" id="hashBook" placeholder="Hash tác phẩm">
+                </td>
+                <td></td>
+                <td> Tên nhà xuất bản </td>
+                <td>
+                  <input type="text" class="form-control" id="publisher" placeholder="Tên nhà xuất bản">
+                </td>
+              </tr>
+              <tr>
+                <td>Tài khoản Blockchain tác giả</td>
+                <td>
+                  <input type="text" class="form-control" id="authorAddress" placeholder="address">
+                </td>
+                <td></td>
+                <td>Năm xuất bản</td>
+                <td>
+                  <input type="number" class="form-control" id="yearPublish" placeholder="year">
+                </td>
+                <td></td>
+                <td>Link IPFS</td>
+                <td>
+                  <input type="text" class="form-control" id="linkIPFS" placeholder="linkIPFS">
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" style="text-align:center">
+                  <button id="registerProductBtnA" class="btn btn-success">Tạo hợp đồng </button>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">Hợp đồng với nhà sách</h3>
+        </div>
+        <div class="panel-body">
+          <table class="table table-striped">
+            <tbody>
+              <tr>
+                <td>Tên tác phẩm:</td>
+                <td>
+                  <input type="text" class="form-control" id="productNameA" placeholder="product name(3 bit at least)">
+                </td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td>Tên nhà sách:</td>
+                <td>
+                  <input type="text" class="form-control" id="materialNameA" placeholder="material name(3 bit at least)">
+                </td>
+              </tr>
+              <tr>
+                <td> Hash tác phẩm :</td>
+                <td>
+                  <input type="text" class="form-control" id="productCodeA" placeholder="product code(13 bit)">
+                </td>
+                <td></td>
+                <td> Tên nhà xuất bản</td>
+                <td>
+                  <input type="text" class="form-control" id="materialCodeA" placeholder="material code(9 bit)">
+                </td>
+              </tr>
+              <tr>
+                <td>Tài khoản Blockchain nhà sách</td>
+                <td>
+                  <input type="text" class="form-control" id="rawMaterialsA" placeholder="materials">
+                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td colspan="2" style="text-align:center">
+                  <button id="registerProductBtnA" class="btn btn-success">Tạo sản phẩm </button>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div> -->
+
+
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">Thêm và xoá người dùng</h3>
+        </div>
+        <div class="panel-body">
+          <table class="table table-striped">
+            <tbody>
+              <tr>
+                <td>Tài khoản Blockchain:</td>
+                <td>
+                  <input type="text" class="form-control" id="userAddressA" placeholder="user address">
+                </td>
+                <td id="checkResultA"></td>
+              </tr>
+              <tr>
+                <td style="text-align:center">
+                  <button id="addBtnA" class="btn btn-success">Thêm</button>
+                </td>
+                <td style="text-align:center">
+                  <button id="removeBtnA" class="btn btn-success">Xoá</button>
+                </td>
+                <td style="text-align:center">
+                  <button id="checkBtnA" class="btn btn-success">Kiểm tra</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+    <div id="sectionB" class="tab-pane fade">
+      <div class="panel panel-success margin-top-1">
+        <div class="panel-heading">
+          <h3 class="panel-title">Kiểm tra tác phẩm</h3>
+        </div>
+        <div class="panel-body">
+          <table class="table table-striped">
+            <tbody>
+
+              <form method="POST" enctype="multipart/form-data">
+                <input class="form-control" type="file" name="checkFile">
+                </div>
+                <div>
+                  <td colspan="2" style="text-align:center"></td>
+                  <button type="submit" id="checkFileB" class="btn btn-success">Kiểm tra tác phẩm </button>
+                </div>
+                  </form>
+              <tr>
+                </td>
+              </tr>
+              <tr>
+                <td>Tên Tác phẩm</td>
+                <td id="bookNameB"></td>
+              </tr>
+              <tr>
+                <td>Tên Tác giả:</td>
+                <td id="authorsB"></td>
+              </tr>
+              <tr>
+                <td>Nhà xuất bản:</td>
+                <td id="publisherB"></td>
+              </tr>
+              <tr>
+                <td>Năm xuất bản :</td>
+                <td id="yearsB"></td>
+              </tr>
+              <tr>
+                <td>Link IPFS :</td>
+                <td id="linksIPFSB"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="sectionC" class="tab-pane fade">
+      <div class="panel panel-success margin-top-1">
+        <div class="panel-heading">
+          <h3 class="panel-title">Tạo độc bản</h3>
+        </div>
+        <div class="panel-body">
+          <table class="table table-striped">
+            <tbody>
+
+              <tr>
+                <td>Tên tác phẩm:</td>
+                <td>
+                  <input type="text" class="form-control" id="nameBookC" placeholder="Tên tác phẩm">
+                </td>
+              </tr>
+              <tr>
+                <td>ID User :</td>
+                <td>
+                  <input type="text" class="form-control" id="idUserC" placeholder="ID user">
+                </td>
+              </tr>
+              <tr>
+                <td>Tên người mua :</td>
+                <td>
+                  <input type="text" class="form-control" id="customerC" placeholder="Tên người mua">
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" style="text-align:center">
+                  <button id="createHashC" class="btn btn-success">Create</button>
+                </td>
+              </tr>
+              <tr>
+                <td>Độc bản được tạo ra:</td>
+                <td id="specialBookC"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="panel panel-success">
+      <div class="panel-heading">
+        <h3 class="panel-title">Kiểm tra độc bản</h3>
+      </div>
+      <div class="panel-body">
+        <table class="table table-striped">
+          <tbody>
+
+            <tr>
+              <td>Hash độc bản :</td>
+              <td>
+                <input type="text" class="form-control" id="hashBookC" placeholder="Hash độc bản ">
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" style="text-align:center">
+                <button id="checkHashC" class="btn btn-success">Kiểm tra</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Tên tác phẩm gốc </td>
+              <td id="bookNameC"></td>
+            </tr>
+            <tr>
+              <td>Tên tác giả :</td>
+              <td id="authorC"></td>
+            </tr>
+            <tr>
+              <td>Nhà xuất bản </td>
+              <td id="publisherC"></td>
+            </tr>
+            <tr>
+              <td>Tên người sở hữu độc bản :</td>
+              <td id="customerNameC"></td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+      </div>
+
+      <div class="panel panel-success">
+      <div class="panel-heading">
+        <h3 class="panel-title">Kiểm tra số lượng sách bán ra</h3>
+      </div>
+      <div class="panel-body">
+        <table class="table table-striped">
+          <tbody>
+            <tr>
+              <td>Tên tác phẩm:</td>
+              <td>
+                <input type="text" class="form-control" id="bookSaleC" placeholder="Tên tác phẩm">
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" style="text-align:center">
+                <button id="checksaleC" class="btn btn-success">Kiểm tra</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Số lượng tác phẩm bán ra</td>
+              <td id="numberBookC"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- </div>
+    </div> -->
+
+
+    
+    </body>
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="app.js">
+</script>
+</html>
