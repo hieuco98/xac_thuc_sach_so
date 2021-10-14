@@ -12,8 +12,8 @@ var formidable = require("formidable");
 // const mongoose = require('mongoose'); 
 const contract = require('truffle-contract');
 const bookchain = require('./build/contracts/Bookchain.json');
-var bookchainAddress = '0x92fdd1f5abc56f21480c724c890fb4d0eb7ffec8';
-const address = '0x39eB867F6a8C439d765eeb743d8eBb80F9021d31';
+var bookchainAddress = '0x3c8d3b96fd44390c2088e635a075ef9f3f93d37f';
+const address = '0x3A0d5059A4C5f263b775d33D7AdbcD84e58d2ffc';
 const Provider = require('@truffle/hdwallet-provider');
 var sha256File = require('sha256-file');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -210,7 +210,6 @@ app.post('/checkBook',function(req,res)
                })
             })
         //console.log(fileAdded);
-var fileHash = fileAdded.cid;
 //console.log(fileHash);
 
     })
