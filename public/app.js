@@ -33,7 +33,6 @@ var xhr = new XMLHttpRequest();
     var authors = $("#author").val();
     var hashBook = $("#hashBook").val();
     var publisher = $("#publisher").val();
-    var authorAddress = $("#authorAddress").val();
     var yearPublish = $("#yearPublish").val();
     var linkIPFS  = $("#linkIPFS").val();
     //var rawMaterials = $("#rawMaterialsA").val();
@@ -42,7 +41,6 @@ var xhr = new XMLHttpRequest();
         authors : authors,
         hashBook: hashBook,
         publisher:publisher,
-        authorAddress:authorAddress,
         yearPublish : yearPublish,
         linkIPFS : linkIPFS
     }
@@ -82,7 +80,38 @@ var xhr = new XMLHttpRequest();
   //       $("#materialNameA").val('');
   //       $("#materialCodeA").val('');
   // }
-
+  function bookstoreRegister()
+  {
+    var bookName = $("#bookNameA").val();
+    var authors = $("#authorA").val();
+    var hashBook = $("#hashBookA").val();
+    var publisher = $("#publisherA").val();
+    var bookStore = $("#bookStoreA").val();
+    var yearPublish = $("#yearPublishA").val();
+    //var rawMaterials = $("#rawMaterialsA").val();
+    var newBookStore = {
+        bookName: bookName,
+        authors : authors,
+        hashBook: hashBook,
+        publisher:publisher,
+        bookStore:bookStore,
+        yearPublish : yearPublish,
+    }
+    xhr.open('POST','/contractBookStore',true);
+    xhr.setRequestHeader('content-type','application/json');
+    xhr.onload = function()
+    {
+      console.log(xhr.responseText);
+      alert(xhr.responseText);
+    }
+    xhr.send(JSON.stringify(newBookStore));
+        $("#bookName").val();
+        $("#author").val();
+        $("#hashBook").val();
+        $("#publisher").val();
+        $("#yearPublish").val();
+        $("#linkIPFS").val();
+  }
 
 // All registered products of the platform
 function getAllContract() {
@@ -108,6 +137,29 @@ function showAllRegister(list) {
       $("#productListA").append("<tr><td>" + item.id + "</td><td>" + item.hashBook + "</td><td>" + item.bookName + "</td><td>" + item.authors + "</td><td>" + item.publisher + "</td><td>" + item.contract + "</td><td>" + item.yearPublish + "</td></tr>");
     });
   }
+  function getAllBookStore() {
+    let products = [];
+      xhr.open('GET','/showBookStore');
+      xhr.send();
+     xhr.onload = function()
+         {
+             //console.log(xhr.responseText);
+             products = JSON.parse(xhr.responseText);
+             console.log(products);
+             showAllBookStore(products);
+             //console.log(products)
+         }
+      //return products;
+    }
+    
+    // Show all registered products on the page
+    function showAllBookStore(list) {
+          console.log(list)
+        $("#bookstoreListA").html('');
+        list.forEach(function(item, index) {
+          $("#bookstoreListA").append("<tr><td>" + item.id + "</td><td>" + item.hashBook + "</td><td>" + item.bookName + "</td><td>" + item.authors + "</td><td>" + item.publisher + "</td><td>" + item.bookStore + "</td><td>" + item.contract + "</td><td>" + item.yearPublish + "</td></tr>");
+        });
+      }
   function getPlantformInfo() {
     $("#plantformAddressA").html(prcAddress);
   }
@@ -285,15 +337,13 @@ function showAllRegister(list) {
 
     // getPlantformInfo();
      getAllContract();
-  
+     //getAllBookStore();
     // $("#uploadFile").click(function(e) {
     //     e.preventDefault();
     //     uploadFile()
     //   })
-    $("#home_tab").click(function(e) {
-      e.preventDefault();
-      getPlantformInfo();
-      getAllContract();
+    $("#checkBookStoreA").click(function() {
+      getAllBookStore();
     })
   
     $("#product_tab").click(function(e) {
@@ -308,10 +358,9 @@ function showAllRegister(list) {
       //getAllContract();
     });
   
-    $("#registerMaterialBtnA").click(function() {
-
-      materialRegister();
-      getAllRegister();
+    $("#createContractBtnA").click(function() {
+      bookstoreRegister();
+      //getAllRegister();
     });
   
     $("#addBtnA").click(function() {

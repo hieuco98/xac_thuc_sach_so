@@ -12,8 +12,8 @@ contract Bookchain {
     //string _secondPulisher;
     string _publisher;
     string _transaction;
-    string _authorAddress;
-    string _linkIPFS;
+    string _bookStore;
+    uint _time;
     //address _secondPulisherAddress;
     string _yearPublish;
   }
@@ -57,7 +57,7 @@ contract Bookchain {
   }
 
   // Register product information
-  function contractRegister(string bookName, string hashBook, string authors,string publisher, string authorAddress,string transaction,string yearPublish,string linkIPFS) public onlyAdmin {
+  function contractRegister(string bookName, string hashBook, string authors,string publisher, string bookStore,string transaction,string yearPublish) public onlyAdmin {
 
     // require(bytes(_productCodeToName[productCode]).length == 0);
 
@@ -75,9 +75,9 @@ contract Bookchain {
     _books[_numberOfBooks]._authors = authors;
     _books[_numberOfBooks]._publisher = publisher;
     _books[_numberOfBooks]._yearPublish = yearPublish;
-    _books[_numberOfBooks]._authorAddress = authorAddress;
+    _books[_numberOfBooks]._bookStore = bookStore;
      _books[_numberOfBooks]._transaction = transaction;
-     _books[_numberOfBooks]._linkIPFS = linkIPFS;
+     _books[_numberOfBooks]._time = now;
      
 
     _numberOfBooks++;
@@ -131,7 +131,7 @@ contract Bookchain {
 
 
   // Get product information by id
-  function getBookOfId(uint id) constant public returns(string bookName, string hashBook, string authors, string publisher, string transactionHash, string yearPublish,string linkIPFS) {
+  function getBookOfId(uint id) constant public returns(string bookName, string hashBook, string authors, string publisher, string transactionHash, string yearPublish,string bookStore) {
 
     bookName = _books[id]._bookName;
     hashBook = _books[id]._hashBook;
@@ -139,7 +139,7 @@ contract Bookchain {
     publisher = _books[id]._publisher;
     yearPublish = _books[id]._yearPublish;
     transactionHash = _books[id]._transaction;
-    linkIPFS = _books[id]._linkIPFS;
+    bookStore = _books[id]._bookStore;
   }
   function getSpecialBookOfId(uint id) constant public returns(string bookName, string customerName,string hashspecialBook) {
 
@@ -166,19 +166,6 @@ contract Bookchain {
 //   }
 
   // Add user to authorization list
-  function addUser(address addr) public onlyAdmin {
-    isAuthorized[addr] = true;
-  }
-
-  // Remove user
-  function removeUser(address addr) public onlyAdmin {
-    isAuthorized[addr] = false;
-  }
-
-  // Check if the user is authorized
-  function checkUser(address addr) constant public returns(bool result) {
-    result = isAuthorized[addr];
-  }
 
   // Destroy the contract
   function deleteContract() public onlyAdmin {

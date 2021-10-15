@@ -86,6 +86,38 @@
         </div>
       </div>
 
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">Hợp đồng với nhà sách</h3>
+        </div>
+        <div class="panel-body">
+          <div style="height: 200px;overflow:scroll;">
+            <table class="table table-striped">
+              <tr>
+                <td colspan="2" style="text-align:center">
+                  <button id="checkBookStoreA" class="btn btn-success">Kiểm tra danh sách hợp đồng với nhà sách</button>
+                </td>
+              </tr>
+              <tr>
+                <th>STT</th>
+                <th>HashBook</th>
+                <th>Tên sách</th>
+                <th>Tác giả</th>
+                <th>Nhà xuất bản</th>
+                <th>Nhà sách</th>
+                <th>Hợp đồng </th>
+                <th>Năm xuất bản </th>
+
+                
+
+              </tr>
+              <tbody id="bookstoreListA">
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
 
       <div class="panel panel-success">
         <div class="panel-heading">
@@ -117,11 +149,6 @@
                 </td>
               </tr>
               <tr>
-                <td>Tài khoản Blockchain tác giả</td>
-                <td>
-                  <input type="text" class="form-control" id="authorAddress" placeholder="address">
-                </td>
-                <td></td>
                 <td>Năm xuất bản</td>
                 <td>
                   <input type="number" class="form-control" id="yearPublish" placeholder="year">
@@ -144,6 +171,60 @@
           </table>
         </div>
       </div>
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">Hợp đồng với Nhà sách</h3>
+        </div>
+        <div class="panel-body">
+          <table class="table table-striped">
+            <tbody>
+              <tr>
+                <td>Tên tác phẩm:</td>
+                <td>
+                  <input type="text" class="form-control" id="bookNameA" placeholder="Tên tác phẩm">
+                </td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td>Tên nhà sách :</td>
+                <td>
+                  <input type="text" class="form-control" id="bookStoreA" placeholder="Tên tác giả">
+                </td>
+              </tr>
+              <tr>
+                <td> Hash tác phẩm :</td>
+                <td>
+                  <input type="text" class="form-control" id="hashBookA" placeholder="Hash tác phẩm">
+                </td>
+                <td></td>
+                <td> Tên nhà xuất bản </td>
+                <td>
+                  <input type="text" class="form-control" id="publisherA" placeholder="Tên nhà xuất bản">
+                </td>
+              </tr>
+              <tr>
+                <td>Tên tác giả </td>
+                <td>
+                  <input type="text" class="form-control" id="authorA" placeholder="address">
+                </td>
+                <td></td>
+                <td>Năm xuất bản</td>
+                <td>
+                  <input type="number" class="form-control" id="yearPublishA" placeholder="year">
+                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td colspan="2" style="text-align:center">
+                  <button id="createContractBtnA" class="btn btn-success">Tạo hợp đồng </button>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
       <!-- <div class="panel panel-success">
         <div class="panel-heading">
           <h3 class="panel-title">Hợp đồng với nhà sách</h3>
@@ -193,39 +274,6 @@
         </div>
       </div> -->
 
-
-      <div class="panel panel-success">
-        <div class="panel-heading">
-          <h3 class="panel-title">Thêm và xoá người dùng</h3>
-        </div>
-        <div class="panel-body">
-          <table class="table table-striped">
-            <tbody>
-              <tr>
-                <td>Tài khoản Blockchain:</td>
-                <td>
-                  <input type="text" class="form-control" id="userAddressA" placeholder="user address">
-                </td>
-                <td id="checkResultA"></td>
-              </tr>
-              <tr>
-                <td style="text-align:center">
-                  <button id="addBtnA" class="btn btn-success">Thêm</button>
-                </td>
-                <td style="text-align:center">
-                  <button id="removeBtnA" class="btn btn-success">Xoá</button>
-                </td>
-                <td style="text-align:center">
-                  <button id="checkBtnA" class="btn btn-success">Kiểm tra</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-
     <div id="sectionB" class="tab-pane fade">
       <div class="panel panel-success margin-top-1">
         <div class="panel-heading">
@@ -262,17 +310,11 @@
                 <td>Năm xuất bản :</td>
                 <td id="yearsB"></td>
               </tr>
-              <tr>
-                <td>Link IPFS :</td>
-                <td id="linksIPFSB"></td>
-              </tr>
             </tbody>
           </table>
         </div>
-
-
       </div>
-    </div>
+  </div>
 
     <div id="sectionC" class="tab-pane fade">
       <div class="panel panel-success margin-top-1">
@@ -383,9 +425,8 @@
     </div>
     <!-- </div>
     </div> -->
-
-
-    
+  </div>
+  </div>
     </body>
     <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

@@ -12,8 +12,9 @@ var formidable = require("formidable");
 // const mongoose = require('mongoose'); 
 const contract = require('truffle-contract');
 const bookchain = require('./build/contracts/Bookchain.json');
-var bookchainAddress = '0x3c8d3b96fd44390c2088e635a075ef9f3f93d37f';
-const address = '0x3A0d5059A4C5f263b775d33D7AdbcD84e58d2ffc';
+var bookchainAddress = '0x93cf54519d1bf398adf5ed8c57d5978fb7626005';
+const address = '0xFf845f6651594c4DdBb01C1FEeF80737938db22A';
+const receive = "0x96AD97085c717f23C64dD17Fd05527903597bC6D"
 const Provider = require('@truffle/hdwallet-provider');
 var sha256File = require('sha256-file');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -61,19 +62,19 @@ app.post('/reqisterBook',async function(req,res)
     var authors = req.body.authors;
     var hashBook = req.body.hashBook;
     var publisher = req.body.publisher;
-    var authorAddress = req.body.authorAddress;
-    var linkIPFS = req.body.linkIPFS;
+    var bookStore = "Not Have Yet";
+    // var linkIPFS = req.body.linkIPFS;
     var yearPublish = req.body.yearPublish.toString();
     var transaction = await web3.eth.sendTransaction({
         from: address,
-        to: authorAddress,
+        to: receive,
         gas: defaultGas
       });
     var transactionHash =transaction.transactionHash ;
       BookChain.at(bookchainAddress).then(function(instance)
       {
         BookChainInstance = instance;
-        return BookChainInstance.contractRegister(bookName, hashBook, authors, publisher,authorAddress,transactionHash,yearPublish,linkIPFS,{
+        return BookChainInstance.contractRegister(bookName, hashBook, authors, publisher,transactionHash,yearPublish,bookStore,{
             from: address,
             gas: defaultGas
           });
@@ -105,8 +106,9 @@ function getRegisterProduct(id)
             hashBook: product[1],
             authors: product[2],
             publisher: product[3],
-            contract : product[4],
-            yearPublish: product[5]
+            contract : product[6],
+            yearPublish: product[4],
+            bookStore:product[5]
           }
         })
       });
@@ -118,64 +120,90 @@ app.get('/showContract',async function(req, res)
     console.log(total)
     for (let i = 1; i <= total; i++) {
         let product = await getRegisterProduct(i);
-        products.push(product);
+        if(product.bookStore === "Not Have Yet")
+    {        
+      products.push(product);
+      }
       }
       console.log(products);
       var datasend = JSON.stringify(products);
       res.send(datasend);
 
 })
-app.post('/createuser',function(req,res)
+app.post('/contractBookStore',async function(req,res)
 {
+    console.log(req.body);
     var BookChainInstance;
-    var userAddress = req.body.useraddress;
-    BookChain.at(bookchainAddress).then(function(instance) {
+    var bookName = req.body.bookName;
+    var authors = req.body.authors;
+    var hashBook = req.body.hashBook;
+    var publisher = req.body.publisher;
+    var bookStore = req.body.bookStore;
+    var yearPublish = req.body.yearPublish.toString();
+    var transaction = await web3.eth.sendTransaction({
+        from: address,
+        to: receive,
+        gas: defaultGas
+      });
+    var transactionHash =transaction.transactionHash ;
+      BookChain.at(bookchainAddress).then(function(instance)
+      {
         BookChainInstance = instance;
-        console.log("Get PRC address Success")
-        return BookChainInstance.addUser(userAddress, {
-          from: address,
-          gas: defaultGas
-        });
-      }).then(function(txReceipt) {
+        return BookChainInstance.contractRegister(bookName, hashBook, authors, publisher,transactionHash,yearPublish,bookStore,{
+            from: address,
+            gas: defaultGas
+          });
+      }).then(async function(txReceipt) {
         console.log(txReceipt);
-        res.send("Create User Success")
-      });
+        res.send("Tao hop dong thanh cong");
+});
 })
-app.post('/removeuser',function(req,res)
+// function getTotalBookStore()
+// {
+//     var BookChainInstance;
+//     return  BookChain.at(bookchainAddress).then(function(instance) {
+//         BookChainInstance = instance;
+//         return BookChainInstance.getNumberOfBooks.call()
+//       }).then(function(total) {
+//         return total;
+//       });
+// }
+// function getRegisterBookStore(id)
+// {
+//     var BookChainInstance;
+//     return BookChain.at(bookchainAddress).then(function(instance) {
+//         BookChainInstance = instance;
+//         return BookChainInstance.getBookOfId.call(id).then(function(product) {
+//           console.log(product);
+//           return {
+//             id: id,
+//             bookName: product[0],
+//             hashBook: product[1],
+//             authors: product[2],
+//             publisher: product[3],
+//             contract : product[4],
+//             yearPublish: product[5],
+//             bookStore :product[6]
+//           }
+//         })
+//       });
+// }
+app.get('/showBookStore',async function(req, res)
 {
-    var BookChainInstance;
-    var userAddress = req.body.useraddress;
-    BookChain.at(bookchainAddress).then(function(instance) {
-        BookChainInstance= instance;
-        console.log("Get PRC address Success")
-        return BookChainInstance.removeUser(userAddress, {
-          from: address,
-          gas: defaultGas
-        });
-      }).then(function(txReceipt) {
-        console.log(txReceipt);
-        res.send("Remove User Success")
-      });
-})
-app.post('/checkuser',function(req,res)
-{
-    var BookChainInstance;
-    var userAddress = req.body.useraddress;
-    BookChain.at(bookchainAddress).then(function(instance) {
-        BookChainInstance= instance;
-        console.log("Get PRC address Success")
-        return BookChainInstance.checkUser.call(userAddress);
-      }).then(function(result) {
-        console.log(result);
-        if(result)
+    let products = [];
+    let total = await getTotalProduct();
+    console.log(total)
+    for (let i = 1; i <= total; i++) {
+        let product = await getRegisterProduct(i);
+        if(product.bookStore !="Not Have Yet")
         {
-        res.send("Address was created");
+        products.push(product);
         }
-        else
-        {
-            res.send("Checking your account or add account again");
-        }
-      });
+      }
+      console.log(products);
+      var datasend = JSON.stringify(products);
+      res.send(datasend);
+
 })
 app.post('/checkBook',function(req,res)
 {
@@ -315,7 +343,7 @@ app.post('/checkSaleBook',async function(req,res)
   let products = [];
     let total = await getTotalhashSpecialBook();
     console.log(total)
-    for (let i = 1; i <= total; i++) {
+    for (let i = 0; i <= total; i++) {
         let product = await getSaleBook(i);
         products.push(product);
       }
